@@ -675,22 +675,9 @@ button:focus-visible {
 		max-width: 1280px;
 		grid-template-areas:
 			"hero hero avatar contact"
-			"about projects blog contact"
-			"skills github recent recent"
-			"social social social recent";
-	}
-
-	.grid-area-social {
-		min-height: 240px;
-		max-height: 240px;
-	}
-
-	.grid-area-recent {
-		min-height: 240px;
-	}
-
-	.grid-area-skills {
-		min-height: 240px;
+			"about projects projects contact"
+			"skills blog blog github"
+			"skills recent social social";
 	}
 }
 
