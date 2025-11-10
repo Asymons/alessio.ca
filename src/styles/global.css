@@ -526,14 +526,14 @@ button:focus-visible {
 	padding: var(--space-sm);
 	grid-template-areas:
 		"hero"
-		"avatar"
-		"projects"
 		"about"
+		"contact"
+		"projects"
 		"blog"
+		"recent"
 		"github"
 		"social"
-		"recent"
-		"cta";
+		"avatar";
 }
 
 /* Bento Grid Item Base Styles */
@@ -573,7 +573,6 @@ button:focus-visible {
 
 .grid-area-contact {
 	grid-area: contact;
-	display: none;
 }
 
 .grid-area-about {
@@ -595,6 +594,7 @@ button:focus-visible {
 
 .grid-area-social {
 	grid-area: social;
+	min-height: 240px;
 }
 
 .grid-area-github {
@@ -620,16 +620,11 @@ button:focus-visible {
 		grid-template-areas:
 			"hero hero"
 			"avatar about"
-			"projects projects"
+			"projects contact"
 			"github blog"
 			"skills recent"
-			"skills contact"
 			"social social"
 			"cta cta";
-	}
-
-	.grid-area-contact {
-		display: flex;
 	}
 
 	.grid-area-skills {
@@ -646,11 +641,27 @@ button:focus-visible {
 		grid-template-columns: repeat(3, 1fr);
 		max-width: 1024px;
 		grid-template-areas:
-			"hero hero avatar"
-			"about projects projects"
-			"skills blog blog"
-			"skills recent github"
-			"social social contact";
+			"hero hero hero"
+			"about projects contact"
+			"skills blog github"
+			"social social recent";
+	}
+
+	.grid-area-avatar {
+		display: none;
+	}
+
+	.grid-area-github {
+		display: flex;
+	}
+
+	.grid-area-social {
+		min-height: 280px;
+		max-height: 280px;
+	}
+
+	.grid-area-recent {
+		min-height: 280px;
 	}
 }
 
@@ -664,9 +675,22 @@ button:focus-visible {
 		max-width: 1280px;
 		grid-template-areas:
 			"hero hero avatar contact"
-			"about projects projects contact"
-			"skills blog blog github"
-			"skills recent social social";
+			"about projects blog contact"
+			"skills github recent recent"
+			"social social social recent";
+	}
+
+	.grid-area-social {
+		min-height: 240px;
+		max-height: 240px;
+	}
+
+	.grid-area-recent {
+		min-height: 240px;
+	}
+
+	.grid-area-skills {
+		min-height: 240px;
 	}
 }
 

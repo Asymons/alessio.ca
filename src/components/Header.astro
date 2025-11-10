@@ -2,19 +2,19 @@
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL;
 ---
 
 <header>
 	<nav>
-		<a href={base} class="logo" aria-label={SITE_TITLE}>
+		<a href={base || '/'} class="logo" aria-label={SITE_TITLE}>
 			<svg class="logo-icon" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M4.5 33.5156H0L14.2266 0H19.0312L33.3281 33.5156H28.5234L24.1875 22.9688H13.1016L14.2969 19.4531H22.7344L16.4766 4.26562L4.5 33.5156Z" fill="currentColor"/>
 			</svg>
 		</a>
 		<div class="nav-links">
-			<HeaderLink href={base}>Home</HeaderLink>
-			<HeaderLink href={`${base}/blog`}>Blog</HeaderLink>
+			<HeaderLink href={base || '/'}>Home</HeaderLink>
+			<HeaderLink href={base ? `${base}/blog` : '/blog'}>Blog</HeaderLink>
 		</div>
 	</nav>
 </header>

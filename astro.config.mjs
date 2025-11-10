@@ -6,7 +6,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://asymons.github.io',
-	base: '/alessio.ca',
+	site: 'https://alessio.ca',
 	integrations: [mdx(), sitemap()],
 });
