@@ -1,0 +1,172 @@
+---
+// WaveBox component - 3 diagonal lines with subtle waves
+// Consistent appearance across page loads
+
+// Generate a diagonal line with subtle wave
+function generateWavyLine(offsetX: number, offsetY: number, phaseOffset: number): string {
+	const viewportWidth = 600;
+	const viewportHeight = 400;
+	const totalLength = Math.sqrt(
+		Math.pow(viewportWidth + 200, 2) + Math.pow(viewportHeight + 200, 2)
+	);
+
+	const segments = 8; // Smooth segments
+	const angle = Math.atan2(viewportHeight + 200, viewportWidth + 200);
+	const cosAngle = Math.cos(angle);
+	const sinAngle = Math.sin(angle);
+
+	const waveFrequency = 0.8; // Subtle wave frequency
+	const waveAmplitude = 30; // Subtle amplitude
+
+	let path = `M ${offsetX} ${offsetY}`;
+
+	for (let i = 1; i <= segments; i++) {
+		const t = i / segments;
+		const distanceAlongLine = t * totalLength;
+
+		const baseX = offsetX + distanceAlongLine * cosAngle;
+		const baseY = offsetY + distanceAlongLine * sinAngle;
+
+		// Sine wave with fixed phase offset
+		const wavePhase = phaseOffset + t * Math.PI * 2 * waveFrequency;
+		const waveOffset = Math.sin(wavePhase) * waveAmplitude;
+
+		const perpX = -sinAngle;
+		const perpY = cosAngle;
+
+		const endX = baseX + perpX * waveOffset;
+		const endY = baseY + perpY * waveOffset;
+
+		// Smooth control points
+		const prevT = (i - 1) / segments;
+		const prevWavePhase = phaseOffset + prevT * Math.PI * 2 * waveFrequency;
+		const prevWaveOffset = Math.sin(prevWavePhase) * waveAmplitude;
+
+		const prevDistanceAlongLine = prevT * totalLength;
+		const prevBaseX = offsetX + prevDistanceAlongLine * cosAngle;
+		const prevBaseY = offsetY + prevDistanceAlongLine * sinAngle;
+		const startX = prevBaseX + perpX * prevWaveOffset;
+		const startY = prevBaseY + perpY * prevWaveOffset;
+
+		const cp1X = startX + (endX - startX) * 0.33;
+		const cp1Y = startY + (endY - startY) * 0.33;
+		const cp2X = startX + (endX - startX) * 0.67;
+		const cp2Y = startY + (endY - startY) * 0.67;
+
+		path += ` C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
+	}
+
+	return path;
+}
+
+// Three diagonal lines with the same unified wave pattern
+const lines = [
+	{
+		path: generateWavyLine(100, 0, 0),
+		opacity: 0.3,
+		strokeWidth: 2,
+	},
+	{
+		path: generateWavyLine(30, 70, 0),
+		opacity: 0.25,
+		strokeWidth: 2,
+	},
+	{
+		path: generateWavyLine(-40, 140, 0),
+		opacity: 0.2,
+		strokeWidth: 1.5,
+	},
+];
+---
+
+<div class="wave-box">
+	<svg class="wave-box-background" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+		<defs>
+			<filter id="wave-glow">
+				<feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+				<feMerge>
+					<feMergeNode in="coloredBlur"/>
+					<feMergeNode in="coloredBlur"/>
+					<feMergeNode in="SourceGraphic"/>
+				</feMerge>
+			</filter>
+		</defs>
+		{lines.map((line, index) => (
+			<path
+				d={line.path}
+				stroke-width={line.strokeWidth}
+				fill="none"
+				filter="url(#wave-glow)"
+				class={`wave-line wave-line-${index + 1}`}
+				data-opacity={line.opacity}
+			/>
+		))}
+	</svg>
+</div>
+
+<style>
+	.wave-box {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.wave-box-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
+	/* Default line colors */
+	.wave-line-1 {
+		stroke: oklch(0.60 0.20 270 / 0.3);
+	}
+
+	.wave-line-2 {
+		stroke: oklch(0.60 0.20 270 / 0.25);
+	}
+
+	.wave-line-3 {
+		stroke: oklch(0.60 0.20 270 / 0.2);
+	}
+
+	.wave-line {
+		animation: wave-float 25s ease-in-out infinite;
+		transition: stroke var(--transition-normal);
+	}
+
+	/* Brighten lines on hover */
+	.wave-box:hover .wave-line-1 {
+		stroke: oklch(0.75 0.25 270 / 0.5);
+	}
+
+	.wave-box:hover .wave-line-2 {
+		stroke: oklch(0.75 0.25 270 / 0.45);
+	}
+
+	.wave-box:hover .wave-line-3 {
+		stroke: oklch(0.75 0.25 270 / 0.4);
+	}
+
+	@keyframes wave-float {
+		0%, 100% {
+			transform: translateY(0) translateX(0);
+		}
+		50% {
+			transform: translateY(-15px) translateX(10px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.wave-line {
+			animation: none;
+		}
+	}
+</style>

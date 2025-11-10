@@ -5,6 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -13,44 +14,82 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={`${title} | ${SITE_TITLE}`} description={description} />
 		<style>
 			main {
-				width: calc(100% - 2em);
+				width: 100%;
 				max-width: 100%;
 				margin: 0;
+				padding: 0;
 			}
-			.hero-image {
+
+			article {
 				width: 100%;
 			}
+
+			.hero-image {
+				width: 100%;
+				max-width: var(--container-md);
+				margin: 0 auto var(--space-xl) auto;
+				padding: 0 var(--space-md);
+			}
+
 			.hero-image img {
 				display: block;
+				width: 100%;
+				height: auto;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				border-radius: var(--radius-lg);
+				box-shadow: var(--shadow-lg);
 			}
+
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
+				width: 100%;
+				max-width: var(--container-md);
+				margin: 0 auto;
+				padding: 0 var(--space-md);
+				color: var(--color-text);
 			}
+
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin-bottom: var(--space-lg);
 				text-align: center;
-				line-height: 1;
 			}
+
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0 0 var(--space-md) 0;
+				color: var(--color-text);
 			}
+
 			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+				margin-bottom: var(--space-sm);
+				color: var(--color-text-muted);
+				font-size: var(--font-sm);
 			}
+
 			.last-updated-on {
 				font-style: italic;
+				color: var(--color-text-subtle);
+			}
+
+			.title hr {
+				margin: var(--space-lg) 0;
+			}
+
+			/* Responsive spacing */
+			@media (max-width: 720px) {
+				.hero-image {
+					padding: 0 var(--space-sm);
+					margin-bottom: var(--space-lg);
+				}
+
+				.prose {
+					padding: 0 var(--space-sm);
+				}
+
+				.title {
+					margin-bottom: var(--space-md);
+				}
 			}
 		</style>
 	</head>
