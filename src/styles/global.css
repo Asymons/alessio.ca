@@ -679,6 +679,10 @@ button:focus-visible {
 			"skills blog blog github"
 			"skills recent social social";
 	}
+
+	.grid-area-avatar {
+		display: flex;
+	}
 }
 
 /* ==================
